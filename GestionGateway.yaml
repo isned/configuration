@@ -1,0 +1,22 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9093/eureka
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: GestionProfesseur
+          uri: lb://GestionProfesseur
+          predicates:
+            - Path=/prof/**
+          filters:
+            - RewritePath=/prof/(?<path>.*), /${path}
+
+        - id: GestionCours
+          uri: lb://GestionCours
+          predicates:
+            - Path=/cours/**
+          filters:
+            - RewritePath=/cours/(?<path>.*), /${path}
